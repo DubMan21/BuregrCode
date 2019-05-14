@@ -1,0 +1,18 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Admin - {{parent()}}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+
+        {% include "admin/_nav.html.twig" %}
+
+        <div class="alert alert-success mt-5">
+            Bienvenue sur l'espace Administrateur de Burger Code.
+            <br>
+            Vous pouvez gérer les différentes options en cliquant sur les onglets ci-dessus.
+        </div>
+    </div>
+{% endblock %}

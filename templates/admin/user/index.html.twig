@@ -1,0 +1,49 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Admin - {{parent()}}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+
+        {% include "admin/_nav.html.twig" %}
+
+        {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+        {% endfor %}
+
+        <a href="#" class="btn btn-success"><i class="far fa-plus-square"></i> Créer un Administrateur</a>
+        <a href="#" class="btn btn-danger disabled" id="deleteAllButton"><i class="fas fa-trash-alt"></i> Supprimer</a>
+        
+        <table class="table table-striped mt-4">
+            <thead>
+                <tr>
+                    <th><i class="checkAllSquare far fa-square"></i></th>
+                    <th>Username</th>
+                    <th>Rôle</th>
+                    <th><i class="fas fa-edit text-muted"></i></th>
+                    <th><i class="fas fa-trash-alt text-muted"></i></th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr id="{{ user.id }}">
+                    <th><i class="checkSquare far fa-square"></i></th>
+                    <td>{{ user.username }}</td>
+                    <td>
+                        {% for role in user.roles %}
+                        {{ role }}
+                        {% endfor %}
+                    </td>
+                    <td><a href="#"><i class="fas fa-edit text-success"></i></a></td>
+                    <td><a href="#" class="deleteButton"><i class="fas fa-trash-alt text-danger"></i></a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

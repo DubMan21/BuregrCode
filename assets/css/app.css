@@ -1,3 +1,73 @@
-body {
-    background-color: lightgray;
+/* GLOBAL */
+
+body
+{
+    background-image: url('/assets/img/background.png');
+}
+h1
+{
+    font-family: 'Holtwood One SC', sans-serif;
+    color: #eb6636;
+    text-shadow: 2px 2px #ffd301;
+    font-size: 50px;
+    padding: 40px 0px;
+    text-align: center;
+}
+h1 i
+{
+    color: #ffd301;
+    text-shadow: 0px 0px #ffd301;
+}
+h2
+{
+    font-family: 'Holtwood One SC', sans-serif;
+    color: #eb6636;
+    text-shadow: 1px 1px #ffd301;
+    font-size: 22px;
+}
+table
+{
+ background-color: #eee;
+}
+label
+{
+    font-family: 'Holtwood One SC', sans-serif;
+    color: #eb6636;
+    text-shadow: 1px 1px #ffd301;
+    font-size: 16px;
+}
+a.disabled {
+    pointer-events: none;
+    cursor: default;
+  }
+
+/* NAV */
+
+.badge-category
+{
+    background: #eee;
+    text-shadow: 2px 2px #333;
+    margin: 3px 1px;
+}
+.badge-category:focus, .badge-category:hover 
+{
+    background-color: #eb6636;
+}
+.badge-category a:hover 
+{
+    color: #eee;
+}
+.badge-category a
+{
+    display: inline-block;
+    font-family: 'Holtwood One SC', sans-serif;
+    width: 100%;
+    padding: 8px 15px;
+    font-size: 18px;
+    text-decoration: none;
+    color: #eb6636;
+}
+nav
+{
+    margin-bottom: 60px;
 }
