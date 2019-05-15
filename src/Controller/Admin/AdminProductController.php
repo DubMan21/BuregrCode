@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 use App\Entity\Product;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
+use App\Repository\ProductCategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,26 +18,20 @@ class AdminProductController extends AbstractController
      */
     private $manager;
 
-    /**
-     * @var ProductRepository
-     */
-    private $repository;
-
-    public function __construct(ObjectManager $manager, ProductRepository $repository)
+    public function __construct(ObjectManager $manager)
     {
         $this->manager = $manager;
-        $this->repository = $repository;
     }
 
     /**
      * @Route("/admin/products", name="admin.product.index")
      */
-    public function index(ProductRepository $repository)
+    public function index(ProductCategoryRepository $repository)
     {
-        $products = $this->repository->findAll();
+        $categories = $repository->findAll();
 
         return $this->render('admin/product/index.html.twig', [
-            'products' => $products
+            'categories' => $categories
         ]);
     }
 
@@ -86,14 +81,14 @@ class AdminProductController extends AbstractController
     /**
      * @Route("admin/product/delete", name="admin.product.delete")
      */
-    public function delete(Request $request)
+    public function delete(Request $request, ProductRepository $repository)
     {
         if($request->isXmlHttpRequest()){
 
             $i = 0;
             foreach($request->request->get('idArray') as $id)
             {
-                $product = $this->repository->find($id);
+                $product = $repository->find($id);
                 $this->manager->remove($product);
                 $i++;
             }

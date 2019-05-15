@@ -7,13 +7,52 @@
 {% block body %}
 
     <div class="container">
-        <nav>
-            <ul>
-                {% for category in categories %}
-                <li class="badge badge-category"><a href="#">{{ category.name }}</a></li>
-                {% endfor %}
-            </ul>
-        </nav>
+        <div id="collapseProducts">
+            <nav>
+                <ul>
+                    {% for category in categories %}
+                    <li class="badge badge-category">
+                        <a href="#collapseCategory{{ category.id }}" data-toggle="collapse" >{{ category.name }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+
+            <div class="row">
+                <div class="col-lg-8">
+                    
+                    
+
+                    {% for category in categories %}
+                    <div id="collapseCategory{{ category.id }}" class="collapse {% if loop.index == 1 %}show{% endif %}" data-parent="#collapseProducts">    
+                        <div class="row">
+
+                            {% for product in category.products %}
+
+                            <div class="col-10 col-sm-6 col-xl-4 mt-4">
+                                <div class="card">
+                                    <img src="assets/img/b1.png" class="card-img-top bg-warning" alt="{{ product.name }}">
+                                    <div class="product-card-price">{{ product.price|number_format(2, '€', ',') }}</div>
+                                    <div class="card-body">
+                                        <h4 class="card-title">{{ product.name }}</h4>
+                                        <p class="card-text">{{ product.description }}</p>
+                                        <a href="#" class="btn btn-success"><i class="fas fa-shopping-basket"></i> Ajouter au panier</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                </div>
+                <div class="col-lg-4 mt-4" style="height: 600px; background: #fff;">
+                    Récapitulatf de commande
+                </div>
+            </div>
+        </div>
     </div>
 
 {% endblock %}

@@ -13,7 +13,7 @@
         </div>
         {% endif %}
 
-        <form action="{{path('login')}}" method="post">
+        <form action="{{path('login')}}" method="post" autocomplete="off">
             <div class="form-group">
                 <label for="username">Nom d'utilisteur</label>
                 <input type="text" id="username" name="_username" class="form-control" value="{{ lastUsername }}">

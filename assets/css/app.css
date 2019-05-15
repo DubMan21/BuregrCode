@@ -4,6 +4,10 @@ body
 {
     background-image: url('/assets/img/background.png');
 }
+.min-height
+{
+    min-height: 85vh;
+}
 h1
 {
     font-family: 'Holtwood One SC', sans-serif;
@@ -36,10 +40,11 @@ label
     text-shadow: 1px 1px #ffd301;
     font-size: 16px;
 }
-a.disabled {
+a.disabled 
+{
     pointer-events: none;
     cursor: default;
-  }
+}
 
 /* NAV */
 
@@ -70,4 +75,37 @@ a.disabled {
 nav
 {
     margin-bottom: 60px;
+}
+
+
+/* PRODUCTS */
+
+.product-card-price{
+    position: relative;
+}
+.product-card-price
+{
+    background: #5cb85c;
+    box-shadow: 0 1px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0 1px rgba(0,0,0,0.2);
+    -webkit-box-shadow: 0 1px rgba(0,0,0,0.2);
+    color: #fff;
+    text-shadow: 2px 2px #333;
+    font-family: 'Holtwood One SC', sans-serif;
+    position: absolute;
+    right: -10px;
+    top: 20px;
+    padding: 5px 10px;
+    font-size: 15px;
+    border-radius: 3px;
+}
+.product-card-price:before 
+{
+    border: 4px solid transparent;
+    border-bottom: 4px solid #4a934a;
+    border-left: 4px solid #4a934a;
+    content: "";
+    position: absolute;
+    right: 1px;
+    top: -8px;
 }

@@ -86,7 +86,7 @@ class ProductFixtures extends Fixture
         $saladesDescription = [
             'Poulet Pané, Salade, Tomate et la fameuse sauce César',
             'Poulet Grillé, Salade, Tomate et la fameuse sauce César',
-            'Salade, Tomate, Concombre, MaÃ¯s et Vinaigre balsamique',
+            'Salade, Tomate, Concombre, Maïs et Vinaigre balsamique',
             'Poulet Pané, Salade, Tomate et la sauce de votre choix',
             'Poulet Grillé, Salade, Tomate et la sauce de votre choix'
         ];
