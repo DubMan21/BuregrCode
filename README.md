@@ -40,6 +40,7 @@ Load the fixtures.
 Install yarn, then build the asssets.
 
 
+    yarn install
     yarn encore dev --watch
     
     
