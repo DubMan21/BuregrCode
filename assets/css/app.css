@@ -2,7 +2,7 @@
 
 body
 {
-    background-image: url('/assets/img/background.png');
+    background-image: url('/image/background.png');
 }
 .min-height
 {
@@ -108,4 +108,52 @@ nav
     position: absolute;
     right: 1px;
     top: -8px;
+}
+
+.order-side
+{
+    height: 600px; 
+    background: #fff;
+    position: relative;
+}
+.order-side-product
+{
+    height: 490px;
+    overflow-y: scroll;
+    padding-top: 15px;
+}
+@media screen and (max-width: 960px) {
+    body {
+      background-color: blue;
+    }
+}
+.order-side-pay
+{
+    height: 70px;
+    position: absolute;
+    bottom: 0;
+    border-top: 1px solid #000;
+    border-radius: 0 0 0 5px;
+}
+.order-side-pay a
+{
+    position: absolute;
+    top: 15px;
+    right: 15px
+}
+.order-side-pay p
+{
+    position: absolute;
+    top: 20px;
+    left: 15px
+}
+.order-side-title
+{
+    height: 40px;
+    border-bottom: 1px solid #000;
+    border-radius: 5px 0 0 0;
+}
+.order-side-title h4
+{
+    line-height: 40px;
 }

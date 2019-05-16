@@ -32,6 +32,9 @@ class ProductFixtures extends Fixture
             $product->setDescription($menusDescription[$i]);
             $product->setPrice($menusPrice[$i]);
             $product->setCategory($this->getReference(CategoryFixtures::MENU_REFERENCE));
+            $fileNumber = $i+1;
+            $product->setFilename('m' . $fileNumber . '.png');
+            $product->setUpdatedAt(new \DateTime());
 
             $manager->persist($product);
         }
@@ -48,13 +51,16 @@ class ProductFixtures extends Fixture
         ];
         $burgersPrice = [5.9, 6.5, 6.9, 5.9, 6.5, 7.5];
         
-        for($i = 0; $i < 6; $i++)
+        for($i = 0; $i  < 6; $i++)
         {
             $product = new Product();
             $product->setName($burgersName[$i]);
             $product->setDescription($burgersDescription[$i]);
             $product->setPrice($burgersPrice[$i]);
             $product->setCategory($this->getReference(CategoryFixtures::BURGER_REFERENCE));
+            $fileNumber = $i+1;
+            $product->setFilename('b' . $fileNumber . '.png');
+            $product->setUpdatedAt(new \DateTime());
 
             $manager->persist($product);
         }
@@ -70,13 +76,16 @@ class ProductFixtures extends Fixture
         ];
         $snacksPrice = [3.9, 3.4, 5.9, 3.5, 5.9];
         
-        for($i = 0; $i < 5; $i++)
+        for($i = 0; $i  < 5; $i++)
         {
             $product = new Product();
             $product->setName($snacksName[$i]);
             $product->setDescription($snacksDescription[$i]);
             $product->setPrice($snacksPrice[$i]);
             $product->setCategory($this->getReference(CategoryFixtures::SNACK_REFERENCE));
+            $fileNumber = $i+1;
+            $product->setFilename('s' . $fileNumber . '.png');
+            $product->setUpdatedAt(new \DateTime());
 
             $manager->persist($product);
         }
@@ -92,13 +101,16 @@ class ProductFixtures extends Fixture
         ];
         $saladesPrice = [8.9, 8.9, 5.9, 7.9, 7.9];
         
-        for($i = 0; $i < 5; $i++)
+        for($i = 0; $i  < 5; $i++)
         {
             $product = new Product();
             $product->setName($saladesName[$i]);
             $product->setDescription($saladesDescription[$i]);
             $product->setPrice($saladesPrice[$i]);
             $product->setCategory($this->getReference(CategoryFixtures::SALADE_REFERENCE));
+            $fileNumber = $i+1;
+            $product->setFilename('sa' . $fileNumber . '.png');
+            $product->setUpdatedAt(new \DateTime());
 
             $manager->persist($product);
         }
@@ -108,13 +120,16 @@ class ProductFixtures extends Fixture
         $boissonsDescription = 'Au choix: Petit, Moyen ou Grand';
         $boissonsPrice = 1.9;
         
-        for($i = 0; $i < 6; $i++)
+        for($i = 0; $i  < 6; $i++)
         {
             $product = new Product();
             $product->setName($boissonsName[$i]);
             $product->setDescription($boissonsDescription);
             $product->setPrice($boissonsPrice);
             $product->setCategory($this->getReference(CategoryFixtures::BOISSON_REFERENCE));
+            $fileNumber = $i+1;
+            $product->setFilename('bo' . $fileNumber . '.png');
+            $product->setUpdatedAt(new \DateTime());
 
             $manager->persist($product);
         }
@@ -130,17 +145,19 @@ class ProductFixtures extends Fixture
         ];
         $dessertsPrice = [8.9, 8.9, 5.9, 7.9, 7.9];
         
-        for($i = 0; $i < 5; $i++)
+        for($i = 0; $i  < 5; $i++)
         {
             $product = new Product();
             $product->setName($dessertsName[$i]);
             $product->setDescription($dessertsDescription[$i]);
             $product->setPrice($dessertsPrice[$i]);
             $product->setCategory($this->getReference(CategoryFixtures::DESSERT_REFERENCE));
+            $fileNumber = $i+1;
+            $product->setFilename('d' . $fileNumber . '.png');
+            $product->setUpdatedAt(new \DateTime());
 
             $manager->persist($product);
         }
-
 
         $manager->flush();
     }

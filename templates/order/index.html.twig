@@ -31,7 +31,16 @@
 
                             <div class="col-10 col-sm-6 col-xl-4 mt-4">
                                 <div class="card">
-                                    <img src="assets/img/b1.png" class="card-img-top bg-warning" alt="{{ product.name }}">
+                                    {% if product.filename %}
+                                    
+                                    <img src="{{ vich_uploader_asset(product, 'imageFile') }}" class="card-img-top bg-warning" alt="{{ product.name }}">
+
+                                    {% else %}
+                                        
+                                    <img src="image/image_not_found.png" class="card-img-top bg-warning" alt="default image">
+                                    
+                                    {% endif %}
+                                    
                                     <div class="product-card-price">{{ product.price|number_format(2, '€', ',') }}</div>
                                     <div class="card-body">
                                         <h4 class="card-title">{{ product.name }}</h4>
@@ -48,9 +57,34 @@
                     {% endfor %}
 
                 </div>
-                <div class="col-lg-4 mt-4" style="height: 600px; background: #fff;">
-                    Récapitulatf de commande
-                </div>
+                <aside class="col-lg-4 mt-4 rounded order-side">
+
+                    <div class="row">
+                        <div class="col-12 order-side-title">
+                            <h4>Votre commande</h4>
+                        </div>
+
+                        <div class="col-12 order-side-product">
+
+                            <div class="card" style="max-width: 540px;">
+                                <div class="row no-gutters">
+                                    <div class="col-md-4">
+                                    <img src="" class="card-img" alt="...">
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">Menu Big</h5>
+                                        <a href="#"><i class="fas fa-trash-alt text-danger"></i></a>
+                                    </div>
+                                </div>
+                            </div>  
+
+                        </div>
+                        <div class="col-12 order-side-pay">
+                            <p>Total : <span></span></p>
+                            <a href="#" class="btn btn-success"> <i class="fas fa-cash-register"></i> Commander</a>
+                        </div>
+                    </div>
+                </aside>
             </div>
         </div>
     </div>
