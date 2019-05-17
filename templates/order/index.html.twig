@@ -45,7 +45,7 @@
                                     <div class="card-body">
                                         <h4 class="card-title">{{ product.name }}</h4>
                                         <p class="card-text">{{ product.description }}</p>
-                                        <a href="#" class="btn btn-success"><i class="fas fa-shopping-basket"></i> Ajouter au panier</a>
+                                        <a href="{{ path('order.add', {id: product.id}) }}" class="btn btn-success addProductOrder"><i class="fas fa-shopping-basket"></i> Ajouter au panier</a>
                                     </div>
                                 </div>
                             </div>
@@ -64,24 +64,33 @@
                             <h4>Votre commande</h4>
                         </div>
 
-                        <div class="col-12 order-side-product">
+                        <div class="col-12 order-side-product" id="orderSideproduct">
 
-                            <div class="card" style="max-width: 540px;">
-                                <div class="row no-gutters">
-                                    <div class="col-md-4">
-                                    <img src="" class="card-img" alt="...">
-                                    </div>
-                                    <div class="card-body">
-                                        <h5 class="card-title">Menu Big</h5>
-                                        <a href="#"><i class="fas fa-trash-alt text-danger"></i></a>
-                                    </div>
+                        {% for orderProduct in order.orderProducts %}
+                            
+                        <div class="card">
+                            <div class="row no-gutters">
+                                <div class="col-4">
+                                <img src="{{ vich_uploader_asset(orderProduct.product, 'imageFile') }}" class="card-img">
                                 </div>
-                            </div>  
+                                <div class="card-body col-7">
+                                    <h5 class="card-title">{{ orderProduct.product.name }}</h5>
+                                    <p>
+                                        X <input type="number" min="1" class="quantity-id" name="quantity{{ orderProduct.product.id }}" value="{{ orderProduct.quantity }}">
+                                    </p>
+                                 </div>
+                                <div class="col-1">
+                                    <a href="#" class="delete-id" id="delete{{ orderProduct.product.id }}"><i class="fas fa-trash-alt text-danger"></i></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% endfor %}    
 
                         </div>
                         <div class="col-12 order-side-pay">
-                            <p>Total : <span></span></p>
-                            <a href="#" class="btn btn-success"> <i class="fas fa-cash-register"></i> Commander</a>
+                            <p>Total : <span id="orderSidePrice">{{ order.totalPrice|number_format(2, '.', ',') }}</span> €</p>
+                            <a href="" class="btn btn-success"> <i class="fas fa-cash-register"></i> Commander</a>
                         </div>
                     </div>
                 </aside>

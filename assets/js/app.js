@@ -15,4 +15,5 @@ var $ = require('jquery');
 // import the function from check-square.js (the .js extension is optional)
 // ./ (or ../) means to look for a local file
 var checkSquare = require('./checkSquare');
+var productOrder = require('./productOrder');
 
