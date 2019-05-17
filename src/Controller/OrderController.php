@@ -52,6 +52,16 @@ class OrderController extends AbstractController
     }
 
     /**
+     * @Route("/order", name="order.show")
+     *
+     * @return Response
+     */
+    public function show()
+    {
+        return new Response('confirmation de commande');
+    }
+
+    /**
      * @Route("/products/{id}", name="order.add")
      */
     public function addProduct(Product $product, Request $request, UploaderHelper $helper)
@@ -71,14 +81,18 @@ class OrderController extends AbstractController
                     
                         $this->session->set('order', $order);
 
-                        return $this->json([], 204);
+                        return $this->json([
+                            'totalPrice' => $order->totalPrice()
+                        ], 200);
                     }
                     else if($request->getMethod() == "DELETE")
                     {
                         $order->removeOrderProduct($item);
                         $this->session->set('order', $order);
 
-                        return $this->json([], 204);
+                        return $this->json([
+                            'totalPrice' => $order->totalPrice()
+                        ], 200);
                     }
                     else
                     {

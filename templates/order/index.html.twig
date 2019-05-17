@@ -90,7 +90,7 @@
                         </div>
                         <div class="col-12 order-side-pay">
                             <p>Total : <span id="orderSidePrice">{{ order.totalPrice|number_format(2, '.', ',') }}</span> €</p>
-                            <a href="" class="btn btn-success"> <i class="fas fa-cash-register"></i> Commander</a>
+                            <a href="{{ path('order.show') }}" class="btn btn-success"> <i class="fas fa-cash-register"></i> Commander</a>
                         </div>
                     </div>
                 </aside>

@@ -51,6 +51,12 @@ $(function(){
                 type: 'POST',
                 url: url,
                 data: {quantity: sel.val()},
+
+                success: function(data){
+                    var num = Number(data.totalPrice);
+                    var roundedString = num.toFixed(2);
+                    $('#orderSidePrice').text(roundedString);
+                }
             });
         }
     }
@@ -64,7 +70,13 @@ $(function(){
 
         $.ajax({
             method: 'DELETE',
-            url: url
+            url: url,
+
+            success: function(data){
+                var num = Number(data.totalPrice);
+                var roundedString = num.toFixed(2);
+                $('#orderSidePrice').text(roundedString);
+            }
         });
 
         sel.parentsUntil('#orderSideproduct').remove();
