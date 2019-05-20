@@ -5,11 +5,12 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\OrderRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\TheOrderRepository")
  */
-class Order
+class TheOrder
 {
     /**
      * @ORM\Id()
@@ -24,9 +25,33 @@ class Order
     private $order_at;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\OrderProduct", mappedBy="theOrder", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\OrderProduct", mappedBy="theOrder", orphanRemoval=true, cascade={"persist"})
      */
     private $orderProducts;
+
+    /**
+     * @ORM\Column(type="string", length=30)
+     * @Assert\Length(min=2, max=30)
+     */
+    private $firstname;
+
+    /**
+     * @ORM\Column(type="string", length=30)
+     * @Assert\Length(min=2, max=30)
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\Email()
+     */
+    private $email;
+
+    /**
+     * @ORM\Column(type="string", length=20)
+     * @Assert\Regex("/[0-9]{10}/")
+     */
+    private $phone;
 
     public function __construct()
     {
@@ -100,5 +125,53 @@ class Order
         }
 
         return $total;
+    }
+
+    public function getFirstname(): ?string
+    {
+        return $this->firstname;
+    }
+
+    public function setFirstname(string $firstname): self
+    {
+        $this->firstname = $firstname;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(string $phone): self
+    {
+        $this->phone = $phone;
+
+        return $this;
     }
 }

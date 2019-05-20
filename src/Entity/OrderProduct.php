@@ -17,7 +17,7 @@ class OrderProduct
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Product", inversedBy="orderProducts")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Product", inversedBy="orderProducts", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $product;
@@ -28,7 +28,7 @@ class OrderProduct
     private $quantity;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Order", inversedBy="orderProducts")
+     * @ORM\ManyToOne(targetEntity="App\Entity\TheOrder", inversedBy="orderProducts", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $theOrder;
@@ -67,12 +67,12 @@ class OrderProduct
         return $this;
     }
 
-    public function getTheOrder(): ?Order
+    public function getTheOrder(): ?TheOrder
     {
         return $this->theOrder;
     }
 
-    public function setTheOrder(?Order $theOrder): self
+    public function setTheOrder(?TheOrder $theOrder): self
     {
         $this->theOrder = $theOrder;
 

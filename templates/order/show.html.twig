@@ -1,0 +1,25 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-6 mt-5">
+                
+                {{form_start(form)}}
+                
+                    {{ form_row(form.name) }}
+                    {{ form_row(form.firstname) }}
+                
+                    {{ form_row(form.email) }}
+                    {{ form_row(form.phone) }}
+    
+                    <button class="btn btn-success mt-5"><i class="far fa-credit-card"></i> Valider la commande</button>
+                
+                {{form_end(form)}}
+            </div>
+    
+            {{ include ("order/_order.html.twig", {edit: false}) }}
+        </div>
+    </div>
+{% endblock %}

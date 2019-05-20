@@ -1,0 +1,50 @@
+<aside class="col-lg-4 mt-4 rounded order-side">
+
+    <div class="row">
+        <div class="col-12 order-side-title">
+            <h4>Votre commande</h4>
+        </div>
+
+        <div class="col-12 order-side-product" id="orderSideproduct">
+
+        {% for orderProduct in order.orderProducts %}
+            
+        <div class="card">
+            <div class="row no-gutters">
+                <div class="col-4">
+                <img src="{{ vich_uploader_asset(orderProduct.product, 'imageFile') }}" class="card-img">
+                </div>
+                <div class="card-body col-7">
+                    <h5 class="card-title">{{ orderProduct.product.name }}</h5>
+                    <p>X 
+                        {% if edit == true %}
+                            <input type="number" min="1" class="quantity-id" name="quantity{{ orderProduct.product.id }}" value="{{ orderProduct.quantity }}">
+                        {% else %}
+                            {{ orderProduct.quantity }}
+                        {% endif %}
+                    </p>
+                 </div>
+                <div class="col-1">
+                    {% if edit == true %}
+                        <a href="#" class="delete-id" id="delete{{ orderProduct.product.id }}"><i class="fas fa-trash-alt text-danger"></i></a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        {% endfor %}    
+
+        </div>
+        <div class="col-12 order-side-pay">
+            <p>Total : <span id="orderSidePrice">{{ order.totalPrice|number_format(2, '.', ',') }}</span> €</p>
+            
+            {% if edit == true %}
+                <a href="{{ path('order.show') }}" class="btn btn-success"><i class="fas fa-cash-register"></i> Commander</a>
+            {% else %}
+                <a href="{{ path('order.index') }}" class="btn btn-success"><i class="fas fa-shopping-basket"></i>  Modifier la commande</a>
+            {% endif %}
+            
+            
+        </div>
+    </div>
+</aside>

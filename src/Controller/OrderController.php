@@ -1,16 +1,19 @@
 <?php
 namespace App\Controller;
 
-use App\Entity\Order;
+use App\Entity\TheOrder;
 use App\Entity\Product;
+use App\Form\OrderType;
 use App\Entity\OrderProduct;
 use App\Repository\ProductCategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
+use Doctrine\Common\Persistence\ObjectManager;
+use App\Repository\ProductRepository;
 
 class OrderController extends AbstractController
 {
@@ -19,9 +22,15 @@ class OrderController extends AbstractController
      */
     private $session;
 
-    public function __construct(SessionInterface $session)
+    /**
+     * @var ObjectManager
+     */
+    private $manager;
+
+    public function __construct(SessionInterface $session, ObjectManager $manager)
     {
         $this->session = $session;
+        $this->manager = $manager;
     }
 
     /**
@@ -31,16 +40,14 @@ class OrderController extends AbstractController
      */
     public function index(ProductCategoryRepository $productCategoryRepository):Response
     {
-
-        if($this->session->get('order') !== null)
+        if($this->session->get('order') === null)
         {
-            $order =  $this->session->get('order');
-            //$this->session->invalidate();
+            $order = new TheOrder();
+            $this->session->set('order', $order);
         }
         else
         {
-            $order = new Order();
-            $this->session->set('order', $order);
+            $order =  $this->session->get('order');
         }
 
         $categories = $productCategoryRepository->findAll();
@@ -56,9 +63,34 @@ class OrderController extends AbstractController
      *
      * @return Response
      */
-    public function show()
+    public function show(Request $request, ProductRepository $productRepository)
     {
-        return new Response('confirmation de commande');
+        if($this->session->get('order')->getOrderProducts()->isEmpty())
+        {
+            return $this->redirectToRoute('order.index');
+        }
+        else
+        {
+            $order =  $this->session->get('order');
+        }
+
+        $form = $this->createForm(OrderType::class, $order);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+
+            $order->setOrderAt(new \Datetime());
+
+            $this->manager->persist($order);
+            $this->manager->flush();
+            return $this->redirectToRoute('order.index');
+        }
+
+        return $this->render('order/show.html.twig', [
+            'order' => $order,
+            'form' => $form->createView()
+        ]);
     }
 
     /**

@@ -35,6 +35,7 @@ class ProductType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Product::class,
+            'translation_domain' => 'forms'
         ]);
     }
 }
