@@ -20,35 +20,41 @@ class TheOrder
     private $id;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $order_at;
 
     /**
+     * @ORM\Column(type="datetime")
+     */
+    private $created_at;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\OrderProduct", mappedBy="theOrder", orphanRemoval=true, cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
      */
     private $orderProducts;
 
     /**
-     * @ORM\Column(type="string", length=30)
+     * @ORM\Column(type="string", length=30, nullable=true)
      * @Assert\Length(min=2, max=30)
      */
     private $firstname;
 
     /**
-     * @ORM\Column(type="string", length=30)
+     * @ORM\Column(type="string", length=30, nullable=true)
      * @Assert\Length(min=2, max=30)
      */
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\Email()
      */
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=20)
+     * @ORM\Column(type="string", length=20, nullable=true)
      * @Assert\Regex("/[0-9]{10}/")
      */
     private $phone;
@@ -171,6 +177,26 @@ class TheOrder
     public function setPhone(string $phone): self
     {
         $this->phone = $phone;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of created_at
+     */ 
+    public function getCreated_at()
+    {
+        return $this->created_at;
+    }
+
+    /**
+     * Set the value of created_at
+     *
+     * @return  self
+     */ 
+    public function setCreated_at($created_at)
+    {
+        $this->created_at = $created_at;
 
         return $this;
     }

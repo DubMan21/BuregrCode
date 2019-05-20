@@ -13,7 +13,7 @@ use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\Common\Persistence\ObjectManager;
-use App\Repository\ProductRepository;
+use App\Repository\TheOrderRepository;
 
 class OrderController extends AbstractController
 {
@@ -27,10 +27,16 @@ class OrderController extends AbstractController
      */
     private $manager;
 
-    public function __construct(SessionInterface $session, ObjectManager $manager)
+    /**
+     * @var TheOrderRepository
+     */
+    private $theOrderRepository;
+
+    public function __construct(SessionInterface $session, ObjectManager $manager, TheOrderRepository $theOrderRepository)
     {
         $this->session = $session;
         $this->manager = $manager;
+        $this->theOrderRepository = $theOrderRepository;
     }
 
     /**
@@ -43,11 +49,14 @@ class OrderController extends AbstractController
         if($this->session->get('order') === null)
         {
             $order = new TheOrder();
-            $this->session->set('order', $order);
+            $order->setCreated_at(new \Datetime());
+            $this->manager->persist($order);
+            $this->manager->flush();
+            $this->session->set('order', $order->getId());
         }
         else
         {
-            $order =  $this->session->get('order');
+            $order = $this->theOrderRepository->find($this->session->get('order'));
         }
 
         $categories = $productCategoryRepository->findAll();
@@ -63,15 +72,13 @@ class OrderController extends AbstractController
      *
      * @return Response
      */
-    public function show(Request $request, ProductRepository $productRepository)
+    public function show(Request $request)
     {
-        if($this->session->get('order')->getOrderProducts()->isEmpty())
+        $order = $this->theOrderRepository->find($this->session->get('order'));
+
+        if($order->getOrderProducts()->isEmpty())
         {
             return $this->redirectToRoute('order.index');
-        }
-        else
-        {
-            $order =  $this->session->get('order');
         }
 
         $form = $this->createForm(OrderType::class, $order);
@@ -84,6 +91,8 @@ class OrderController extends AbstractController
 
             $this->manager->persist($order);
             $this->manager->flush();
+
+            $this->get('session')->set('order', null);
             return $this->redirectToRoute('order.index');
         }
 
@@ -100,7 +109,7 @@ class OrderController extends AbstractController
     {
         if($request->isXmlHttpRequest())
         {
-            $order =  $this->session->get('order');
+            $order = $this->theOrderRepository->find($this->session->get('order'));
 
             foreach($order->getOrderProducts() as $key => $item)
             {
@@ -110,8 +119,10 @@ class OrderController extends AbstractController
                     {
                         $quantity = $request->request->get('quantity');
                         $order->getOrderProductByIndex($key)->setQuantity($quantity);
-                    
-                        $this->session->set('order', $order);
+
+                        $order->setCreated_at(new \Datetime());
+                        $this->manager->persist($order);
+                        $this->manager->flush();
 
                         return $this->json([
                             'totalPrice' => $order->totalPrice()
@@ -120,7 +131,10 @@ class OrderController extends AbstractController
                     else if($request->getMethod() == "DELETE")
                     {
                         $order->removeOrderProduct($item);
-                        $this->session->set('order', $order);
+
+                        $order->setCreated_at(new \Datetime());
+                        $this->manager->persist($order);
+                        $this->manager->flush();
 
                         return $this->json([
                             'totalPrice' => $order->totalPrice()
@@ -130,8 +144,11 @@ class OrderController extends AbstractController
                     {
                         $quantity = $item->getQuantity() + 1;
                         $order->getOrderProductByIndex($key)->setQuantity($quantity);
+
+                        $order->setCreated_at(new \Datetime());
+                        $this->manager->persist($order);
+                        $this->manager->flush();
                     
-                        $this->session->set('order', $order);
                         return $this->json([
                             'quantity' => $quantity,
                             'totalPrice' => $order->totalPrice(),
@@ -147,8 +164,10 @@ class OrderController extends AbstractController
             $orderProduct->setProduct($product);
 
             $order->addOrderProduct($orderProduct);
+            $order->setCreated_at(new \Datetime());
+            $this->manager->persist($order);
+            $this->manager->flush();
 
-            $this->session->set('order', $order);
             return $this->json([
                 'quantity' => $orderProduct->getQuantity(),
                 'totalPrice' => $order->totalPrice(),
