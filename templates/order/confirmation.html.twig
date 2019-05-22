@@ -1,0 +1,20 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Commande - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+
+        <div class="alert alert-success">
+            <p>Merci {{ order.firstname }} pour votre commande !
+            Vous allez très prochainement recevoir un mail récapitulatif de votre de commande à l'adresse {{ order.email }}.
+            Restez près de votre téléphone afin de faciliter la livraison de votre commande.
+        </p>
+        </div>
+
+        <a href="{{ path('order.index') }}" class="btn btn-success"><i class="fas fa-chevron-circle-left"></i> Retour à l'accueil du site</a>
+       
+    </div>
+{% endblock %}

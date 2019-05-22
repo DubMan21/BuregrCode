@@ -46,7 +46,7 @@ class OrderController extends AbstractController
      */
     public function index(ProductCategoryRepository $productCategoryRepository):Response
     {
-        if($this->session->get('order') === null)
+        if($this->session->get('order') === null || $this->theOrderRepository->find($this->session->get('order')) === null)
         {
             $order = new TheOrder();
             $order->setCreated_at(new \Datetime());
@@ -93,12 +93,34 @@ class OrderController extends AbstractController
             $this->manager->flush();
 
             $this->get('session')->set('order', null);
-            return $this->redirectToRoute('order.index');
+
+            $request = $order;
+
+            return $this->redirectToRoute('order.confirmation', [
+                'request' => $request
+            ], 307);
         }
 
         return $this->render('order/show.html.twig', [
             'order' => $order,
             'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/confirmation", name="order.confirmation", methods={"POST"})
+     */
+    public function confirmation(Request $request)
+    {
+        $order = $request->request->get('order');
+
+        if($order === null)
+        {
+            return $this->redirectToRoute('order.index');
+        }
+
+        return $this->render('order/confirmation.html.twig', [
+            'order' => $order
         ]);
     }
 

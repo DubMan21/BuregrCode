@@ -1,0 +1,70 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Admin - {{parent()}}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+
+        {% include "admin/_nav.html.twig" %}
+
+        <div class="row mt-4">
+
+            <div class="col-lg-6">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Informations commande</th>
+                            <th></th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Client</td>
+                            <td>{{ order.name ~ ' ' ~ order.firstname}}</td>
+                        </tr>
+                        <tr>
+                            <td>Adresse email</td>
+                            <td>{{ order.email }}</td>
+                        </tr>
+                        <tr>
+                            <td>N°tel</td>
+                            <td>{{ order.phone }}</td>
+                        </tr>
+                        <tr>
+                            <td>Date de commande</td>
+                            <td>{{ order.orderAt|date("H:i - d/m/Y") }}</td>
+                        </tr>
+                        <tr>
+                            <td>Total commande</td>
+                            <td>{{ order.totalPrice|number_format(2, '.', ',') }}€</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-lg-6">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Détails commande</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        {% for orderProduct in order.orderProducts %}
+                            <tr>
+                                <td>{{ orderProduct.product.name }}</td>
+                                <td>X {{ orderProduct.quantity }}</td>
+                            </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+        </div>
+    </div>
+{% endblock %}

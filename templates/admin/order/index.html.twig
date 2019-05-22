@@ -1,0 +1,42 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Admin - {{parent()}}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+
+        {% include "admin/_nav.html.twig" %}
+
+        {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+        {% endfor %}
+        
+        <table class="table table-striped mt-4">
+            <thead>
+                <tr>
+                    <th>Client</th>
+                    <th>Adresse email</th>
+                    <th>N°tel</th>
+                    <th>Date de commande</th>
+                    <th><i class="far fa-eye text-muted"></i></th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <th>{{ order.name ~ ' ' ~ order.firstname}}</th>
+                    <td>{{ order.email }}</td>
+                    <td>{{ order.phone }}</td>
+                    <td>{{ order.orderAt|date("H:i - d/m/Y") }}</td>
+                    <td><a href="{{ path('admin.order.show', {id: order.id}) }}"><i class="far fa-eye text-primary"></i></a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

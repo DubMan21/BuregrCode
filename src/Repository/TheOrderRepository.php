@@ -19,6 +19,28 @@ class TheOrderRepository extends ServiceEntityRepository
         parent::__construct($registry, TheOrder::class);
     }
 
+    public function deleteUselessOrder()
+    {
+        $this->createQueryBuilder('o')
+            ->delete()
+            ->where('o.order_at IS NULL')
+            ->andWhere("CURRENT_DATE() > DATE_ADD(o.created_at, 1, 'day')")
+            ->getQuery()
+            ->execute();
+
+    }
+
+    public function findAllValid()
+    {
+        return $this->createQueryBuilder('o')
+            ->where('o.order_at IS NOT NULL')
+            ->orderBy('o.order_at', 'DESC')
+            ->getQuery()
+            ->execute();
+    }
+
+
+
     // /**
     //  * @return Order[] Returns an array of Order objects
     //  */

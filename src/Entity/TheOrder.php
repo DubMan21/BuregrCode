@@ -30,8 +30,8 @@ class TheOrder
     private $created_at;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\OrderProduct", mappedBy="theOrder", orphanRemoval=true, cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\OrderProduct", mappedBy="theOrder", orphanRemoval=true, cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
      */
     private $orderProducts;
 
