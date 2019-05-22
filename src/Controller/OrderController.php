@@ -1,19 +1,20 @@
 <?php
 namespace App\Controller;
 
-use App\Entity\TheOrder;
 use App\Entity\Product;
 use App\Form\OrderType;
+use App\Entity\TheOrder;
 use App\Entity\OrderProduct;
+use App\Repository\TheOrderRepository;
 use App\Repository\ProductCategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Notification\OrderConfirmationNotification;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Doctrine\Common\Persistence\ObjectManager;
-use App\Repository\TheOrderRepository;
 
 class OrderController extends AbstractController
 {
@@ -92,13 +93,7 @@ class OrderController extends AbstractController
             $this->manager->persist($order);
             $this->manager->flush();
 
-            $this->get('session')->set('order', null);
-
-            $request = $order;
-
-            return $this->redirectToRoute('order.confirmation', [
-                'request' => $request
-            ], 307);
+            return $this->redirectToRoute('order.confirmation', ['id' => $order->getId()]);
         }
 
         return $this->render('order/show.html.twig', [
@@ -108,16 +103,19 @@ class OrderController extends AbstractController
     }
 
     /**
-     * @Route("/confirmation", name="order.confirmation", methods={"POST"})
+     * @Route("/confirmation/{id}", name="order.confirmation")
      */
-    public function confirmation(Request $request)
+    public function confirmation(TheOrder $order, OrderConfirmationNotification $notification, $id)
     {
-        $order = $request->request->get('order');
 
-        if($order === null)
+        if($id != $this->session->get('order'))
         {
             return $this->redirectToRoute('order.index');
         }
+
+        $this->get('session')->set('order', null);
+
+        $notification->notify($order);
 
         return $this->render('order/confirmation.html.twig', [
             'order' => $order
